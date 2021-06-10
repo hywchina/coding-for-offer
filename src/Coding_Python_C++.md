@@ -5365,6 +5365,53 @@ class Solution:
         return res
 ```
 
+```c++
+# c++ 递归：时间复杂度O(n), 空间复杂度O(n)
+class Solution {
+public:
+    void preorder(TreeNode *root, vector<int> &res) {
+        if (root == nullptr) {
+            return;
+        }
+        res.push_back(root->val);
+        preorder(root->left, res);
+        preorder(root->right, res);
+    }
+
+    vector<int> preorderTraversal(TreeNode *root) {
+        vector<int> res;
+        preorder(root, res);
+        return res;
+    }
+};
+
+# c++ 迭代：时间复杂度O(n), 空间复杂度O(n)
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> res;
+        if (root == nullptr) {
+            return res;
+        }
+
+        stack<TreeNode*> stk;
+        TreeNode* node = root;
+        while (!stk.empty() || node != nullptr) {
+            while (node != nullptr) {
+                res.emplace_back(node->val);
+                stk.emplace(node);
+                node = node->left;
+            }
+            node = stk.top();
+            stk.pop();
+            node = node->right;
+        }
+        return res;
+    }
+};
+
+```
+
 
 
 #### [94. 二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
