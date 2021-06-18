@@ -45,6 +45,7 @@ class Solution:
 #### [53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
 
 ```python
+# python：时间复杂度O(n),空间复杂度O(1)
 class Solution:
     def maxSubArray(self, nums: List[int]) -> int:
         # 定义并初始化dp
@@ -53,6 +54,21 @@ class Solution:
         for i in range(1, len(nums)):
             dp[i] = max(nums[i], dp[i-1] + nums[i])
         return max(dp)
+```
+
+```c++
+// c++: 时间复杂度O(n),空间复杂度O(1)
+class Solution{
+    public:
+    	int maxSubArray(vector<int>& nums){
+            int pre = 0, maxAns = nums[0];
+            for (const auto &x:nums){
+                pre = max(pre + x, x);
+                maxAns = max(maxAns, pre);
+            }
+            return maxAns;
+        }
+};
 ```
 
 
@@ -876,6 +892,42 @@ class Solution:
             for j in range(1, n):
                 dp[i][j] = dp[i-1][j] + dp[i][j-1]
         return dp[m-1][n-1]
+
+    
+# 问题：左上到右下，求出每一条路径是什么
+# 输入 m * n 矩阵
+def backtrack(track, nums, res, i, j, m, n):
+    # i 表示向左走到第i个
+    # j 表示向右走到第j个
+    if len(track) == m + n - 1:
+        res.append(track)
+        return
+    if i < m-1:
+        i += 1
+        track += str(nums[i][j])
+        backtrack(track, nums, res, i, j, m, n)
+        track = track[:-1]
+        i -= 1
+    if j < n-1:
+        j += 1
+        track += str(nums[i][j])
+        backtrack(track, nums, res, i, j, m, n)
+        track = track[:-1]
+        j -= 1
+
+def fun(nums):
+    m = len(nums)
+    n = len(nums[0])
+    track = str(nums[0][0])
+    i = 0
+    j = 0
+    res = []
+    backtrack(track, nums, res, i, j, m, n)
+    return res
+
+nums = [[1,2,3],[4,5,6],[7,8,9]]
+res  = fun(nums)
+print(res)
 ```
 
 
